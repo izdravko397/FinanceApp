@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center">Hi, {{ user.username }}!</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-info text-center" role="alert">
+                <h3>Current Balance: ${{ balance }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="post" class="my-4">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Add Transaction</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-primary">Add Transaction</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <h2>Your Recent Transactions</h2>
+            <ul class="list-group">
+                {% for transaction in recent_transactions %}
+                    <li class="list-group-item">
+                        {{ transaction.date }}: <strong>${{ transaction.amount }}</strong> - {{ transaction.category }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="mt-3 text-center">
+                <a href="{% url 'transactions' %}" class="btn btn-primary">See All Transactions</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
